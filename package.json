@@ -12,14 +12,15 @@
   },
   "author": "",
   "license": "ISC",
-  "dependencies": {},
+  "dependencies": {
+    "treeify": "^1.1.0"
+  },
   "devDependencies": {
     "@babel/cli": "^7.8.4",
     "@babel/core": "^7.2.0",
     "@babel/preset-env": "^7.2.0",
     "babel-loader": "^8.0.4",
     "esm": "^3.2.25",
-    "treeify": "^1.1.0",
     "yargs": "^15.3.1"
   }
 }
