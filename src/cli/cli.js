@@ -1,8 +1,10 @@
-const fs = require('fs');
-const readline = require('readline');
-const Scanner = require('../interpreter/Scanner');
+import fs from'fs';
+import readline from 'readline';
+import yargs from 'yargs';
 
-const yargs = require('yargs').usage('Usage: expr [file]')
+import Scanner from '../interpreter/Scanner';
+
+const cli = yargs.usage('Usage: expr [file]')
 
 const run = source => {
     const scanner = new Scanner(source);
@@ -38,7 +40,7 @@ const runPrompt = () => {
     })
 }
 
-const { argv } = yargs;
+const { argv } = cli;
 
 if (argv._.length === 0) {
     runPrompt();
@@ -47,5 +49,5 @@ else if (argv._.length === 1) {
     runFile(argv._[0]);
 }
 else {
-    yargs.showHelp();
+    cli.showHelp();
 }
