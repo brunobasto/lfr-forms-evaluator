@@ -84,6 +84,10 @@ class Scanner {
         return this.source[this.current + 1];
     }
 
+    previous() {
+        return this.source[this.current - 1];
+    }
+
     scanIdentifier() {
         while (this.isAlphanumeric(this.peek()) && !this.isAtEnd()) {
             this.advance();
@@ -121,7 +125,9 @@ class Scanner {
     }
 
     scanString() {
-        while (this.peek() !== '"' && !this.isAtEnd()) {
+        const startCharacter = this.previous();
+
+        while ((this.peek() !== startCharacter) && !this.isAtEnd()) {
             if (this.peek() == '\n') {
                 this.line++;
             }
@@ -215,6 +221,7 @@ class Scanner {
                 this.addToken(TokenType.OR);
                 break;
             case '"':
+            case '\'':
                 this.scanString();
             case ' ':
             case '\r':
