@@ -238,7 +238,7 @@ class Scanner {
                     this.scanIdentifier();
                 }
                 else {
-                    throw new Error('Unexpected character.' + char)
+                    throw new Error(`Unexpected character ( ${char} ).`);
                 }
 
                 break;
