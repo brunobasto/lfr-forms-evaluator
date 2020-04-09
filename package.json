@@ -2,14 +2,24 @@
   "name": "lfr-forms-evaluator",
   "version": "1.0.0",
   "description": "",
-  "main": "./src/index.js",
+  "main": "./dist/index.js",
   "scripts": {
+    "clean": "rm -rf dist && mkdir dist",
+    "build": "npm run clean && babel src -d dist",
+    "prepublish": "npm run clean && npm run build",
     "start": "node -r esm src/cli/cli.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
+    
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.8.4",
+    "@babel/core": "^7.2.0",
+    "@babel/preset-env": "^7.2.0",
+    "babel-loader": "^8.0.4",
     "esm": "^3.2.25",
     "treeify": "^1.1.0",
     "yargs": "^15.3.1"
