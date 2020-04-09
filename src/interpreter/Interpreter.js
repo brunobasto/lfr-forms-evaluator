@@ -1,5 +1,7 @@
 import { MINUS, PLUS, STAR, SLASH, OR } from "./TokenType";
 import Environment from "./Environment";
+import RuntimeException from "./exceptions/RuntimeException";
+import Callable from "./Callable";
 
 class Interpreter {
     constructor(expression, environment = new Environment()) {
@@ -73,6 +75,24 @@ class Interpreter {
 
     visitVariableExpression(variableExpression) {
         return this.environment.get(variableExpression.token);
+    }
+
+    visitCallExpression(callExpression) {
+        const callee = this.evaluate(callExpression.callee);
+        const args = callExpression.args.map(arg => this.evaluate(arg));
+
+        if (!(callee instanceof Callable)) {
+            throw new RuntimeException(
+                callExpression.closingParenthesis, 'Can only call functions.');
+        }
+
+        if (args.length != callee.arity()) {
+            throw new RuntimeException(
+                callExpression.closingParenthesis,
+                `Expected ${callee.arity()} but got ${args.length} arguments.`);
+        }
+
+        return callee.doCall(this, args);
     }
 
     checkNumberOperands(...operands) {

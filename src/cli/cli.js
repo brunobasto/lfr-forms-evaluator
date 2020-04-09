@@ -7,6 +7,7 @@ import Parser from '../interpreter/Parser';
 import Interpreter from '../interpreter/Interpreter';
 import ASTPrinter from '../interpreter/util/ASTPrinter';
 import Environment from '../interpreter/Environment';
+import PrintFunction from '../interpreter/functions/PrintFunction';
 
 const cli = yargs.usage('Usage: expr [file]')
 
@@ -28,11 +29,13 @@ const run = source => {
 
     console.log('\nAST:\n', astPrinter.print());
 
-    // Interpret
+    // Define native functions
 
     const environment = new Environment();
 
-    environment.define('fieldName', 'predefinedValue');
+    environment.define('print', new PrintFunction());
+
+    // Interpret
 
     const interpreter = new Interpreter(expression, environment);
 

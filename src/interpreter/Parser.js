@@ -123,7 +123,7 @@ class Parser {
     }
 
     /*
-     * Grammar: unary = ("-" | "!") unary | primary;
+     * Grammar: unary = ("-" | "!") unary | call;
      */
 
     parseUnary() {
@@ -134,7 +134,42 @@ class Parser {
             return new Expression.Unary(operator, right);
         }
 
-        return this.parsePrimary();
+        return this.parseCall();
+    }
+
+    /*
+     * Grammar: call  → primary ( "(" arguments? ")" )* ;
+     */
+
+    parseCall() {
+        let expression = this.parsePrimary();
+
+        while (true) {
+            if (this.match(TokenType.LEFT_PAREN)) {
+                expression = this.finishCall(expression);
+            }
+            else {
+                break;
+            }
+        }
+
+        return expression;
+    }
+
+    finishCall(callee) {
+        const args = [];
+
+        if (!this.check(TokenType.RIGHT_PAREN)) {
+            do {
+                args.push(this.parseExpression());
+            } while (this.match(TokenType.COMMA));
+        }
+
+        const closingParenthesis = this.consume(
+            TokenType.RIGHT_PAREN,
+            'Closing parenthesis ( ")" ) expected after function arguments.');
+        
+        return new Expression.Call(callee, args, closingParenthesis);
     }
 
     /*

@@ -12,6 +12,10 @@ addition = multiplication ( ("-" | "+") multiplication )*;
 
 multiplication = unary ( ("/" | "*") unary )*;
 
-unary = ("-" | "!") unary | primary;
+unary = ("-" | "!") unary | call;
+
+call  → primary ( "(" arguments? ")" )* ;
+
+arguments → expression ( "," expression )* ;
 
 primary = INTEGER | FLOAT | STRING | "true" | "false" | "(" expression ")" | IDENTIFIER;

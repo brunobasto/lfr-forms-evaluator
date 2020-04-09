@@ -45,6 +45,15 @@ class ASTPrinter {
             variable: variableExpression.token.lexeme
         }
     }
+
+    visitCallExpression(callExpression) {
+        return {
+            functionCall: {
+                name: this.evaluate(callExpression.callee),
+                args: callExpression.args.map(arg => this.evaluate(arg))
+            }
+        }
+    }
 }
 
 export default ASTPrinter;

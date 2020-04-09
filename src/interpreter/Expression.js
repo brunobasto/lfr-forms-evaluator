@@ -93,4 +93,20 @@ class Logical extends Expression {
 
 Expression.Logical = Logical;
 
+class Call extends Expression {
+    constructor(callee, args, closingParenthesis) {
+        super();
+
+        this.callee = callee;
+        this.closingParenthesis = closingParenthesis;
+        this.args = args;
+    }
+
+    accept(visitor) {
+        return visitor.visitCallExpression(this);
+    }
+}
+
+Expression.Call = Call;
+
 export default Expression;
