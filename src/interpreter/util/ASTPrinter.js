@@ -39,6 +39,12 @@ class ASTPrinter {
     visitLogicalExpression(logicalExpression) {
         return this.visitBinaryExpression(logicalExpression);
     }
+    
+    visitVariableExpression(variableExpression) {
+        return {
+            variable: variableExpression.token.lexeme
+        }
+    }
 }
 
 export default ASTPrinter;

@@ -1,8 +1,10 @@
-import { MINUS, PLUS, STAR, SLASH, AND, OR } from "./TokenType";
+import { MINUS, PLUS, STAR, SLASH, OR } from "./TokenType";
+import Environment from "./Environment";
 
 class Interpreter {
-    constructor(expression) {
+    constructor(expression, environment = new Environment()) {
         this.expression = expression;
+        this.environment = environment;
     }
 
     interpret() {
@@ -67,6 +69,10 @@ class Interpreter {
         }
 
         return this.evaluate(logicalExpression.right);
+    }
+
+    visitVariableExpression(variableExpression) {
+        return this.environment.get(variableExpression.token);
     }
 
     checkNumberOperands(...operands) {

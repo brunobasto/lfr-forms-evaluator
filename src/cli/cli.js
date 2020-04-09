@@ -6,6 +6,7 @@ import Scanner from '../interpreter/Scanner';
 import Parser from '../interpreter/Parser';
 import Interpreter from '../interpreter/Interpreter';
 import ASTPrinter from '../interpreter/util/ASTPrinter';
+import Environment from '../interpreter/Environment';
 
 const cli = yargs.usage('Usage: expr [file]')
 
@@ -29,7 +30,11 @@ const run = source => {
 
     // Interpret
 
-    const interpreter = new Interpreter(expression);
+    const environment = new Environment();
+
+    environment.define('fieldName', 'predefinedValue');
+
+    const interpreter = new Interpreter(expression, environment);
 
     console.log('\nResult:\n', interpreter.interpret(), '\n');
 }
