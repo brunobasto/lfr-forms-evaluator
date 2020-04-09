@@ -85,9 +85,6 @@ class Scanner {
     }
 
     scanIdentifier() {
-        console.log('space is alpha', this.isAlpha(' '));
-        console.log('space is digit', this.isDigit(' '));
-
         while (this.isAlphanumeric(this.peek()) && !this.isAtEnd()) {
             this.advance();
         }
