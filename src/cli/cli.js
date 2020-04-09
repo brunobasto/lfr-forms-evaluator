@@ -1,10 +1,14 @@
 const fs = require('fs');
 const readline = require('readline');
+const Scanner = require('../interpreter/Scanner');
 
 const yargs = require('yargs').usage('Usage: expr [file]')
 
 const run = source => {
-    console.log('Interpret source here', source);
+    const scanner = new Scanner(source);
+    const tokens = scanner.scanTokens();
+
+    console.log('Interpret source here', tokens);
 }
 
 const runFile = filePath => {
