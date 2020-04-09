@@ -3,6 +3,8 @@ import readline from 'readline';
 import yargs from 'yargs';
 
 import Scanner from '../interpreter/Scanner';
+import Parser from '../interpreter/Parser';
+import Interpreter from '../interpreter/Interpreter';
 
 const cli = yargs.usage('Usage: expr [file]')
 
@@ -10,7 +12,17 @@ const run = source => {
     const scanner = new Scanner(source);
     const tokens = scanner.scanTokens();
 
-    console.log('Interpret source here', tokens);
+    console.log('Tokens: ', tokens);
+
+    const parser = new Parser(tokens);
+
+    const expression = parser.parse();
+
+    console.log(expression);
+
+    const interpreter = new Interpreter(expression);
+
+    console.log('Result', interpreter.interpret());
 }
 
 const runFile = filePath => {
