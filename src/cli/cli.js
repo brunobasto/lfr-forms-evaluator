@@ -5,24 +5,33 @@ import yargs from 'yargs';
 import Scanner from '../interpreter/Scanner';
 import Parser from '../interpreter/Parser';
 import Interpreter from '../interpreter/Interpreter';
+import ASTPrinter from '../interpreter/util/ASTPrinter';
 
 const cli = yargs.usage('Usage: expr [file]')
 
 const run = source => {
+    // Scan
+
     const scanner = new Scanner(source);
     const tokens = scanner.scanTokens();
 
-    console.log('Tokens: ', tokens);
+    console.log('\nTokens:\n', tokens);
+
+    // Parse
 
     const parser = new Parser(tokens);
 
     const expression = parser.parse();
 
-    console.log(expression);
+    const astPrinter = new ASTPrinter(expression);
+
+    console.log('\nAST:\n', astPrinter.print());
+
+    // Interpret
 
     const interpreter = new Interpreter(expression);
 
-    console.log('Result', interpreter.interpret());
+    console.log('\nResult:\n', interpreter.interpret(), '\n');
 }
 
 const runFile = filePath => {
