@@ -1,0 +1,13 @@
+expression = equality;
+
+equality = comparison ( ( "==" | "!=" ) comparison )*;
+
+comparison = addition ( ( ">" | ">=" | "<" | "<=" ) addition )*;
+
+addition = multiplication ( ("-" | "+") multiplication )*;
+
+multiplication = unary ( ("/" | "*") unary )*;
+
+unary = ("-" | "!") unary | primary;
+
+primary = NUMBER | STRING | "true" | "false" | "nil" | "(" expression ")" | IDENTIFIER;
