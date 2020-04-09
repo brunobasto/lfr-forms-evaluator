@@ -209,6 +209,14 @@ class Scanner {
             case '!':
                 this.addToken(this.match('=') ? TokenType.NOT_EQUAL : TokenType.NOT);
                 break;
+            case '&':
+                this.match('&');
+                this.addToken(TokenType.AND);
+                break;
+            case '|':
+                this.match('|');
+                this.addToken(TokenType.OR);
+                break;
             case '"':
                 this.scanString();
             case ' ':
