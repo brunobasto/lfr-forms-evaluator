@@ -1,4 +1,8 @@
-expression = equality;
+expression = logic_or;
+
+logic_or = logic_and ( "or" logic_and )*;
+
+logic_and = equality ( "and" equality )*;
 
 equality = comparison ( ( "==" | "!=" ) comparison )*;
 
@@ -10,4 +14,4 @@ multiplication = unary ( ("/" | "*") unary )*;
 
 unary = ("-" | "!") unary | primary;
 
-primary = NUMBER | STRING | "true" | "false" | "nil" | "(" expression ")" | IDENTIFIER;
+primary = INTEGER | FLOAT | STRING | "true" | "false" | "(" expression ")" | IDENTIFIER;
