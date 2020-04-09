@@ -2,7 +2,7 @@
   "name": "lfr-forms-evaluator",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "./src/index.js",
   "scripts": {
     "start": "node -r esm src/cli/cli.js",
     "test": "echo \"Error: no test specified\" && exit 1"
