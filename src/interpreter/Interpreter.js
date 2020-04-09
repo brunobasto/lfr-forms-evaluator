@@ -1,4 +1,4 @@
-import { MINUS, PLUS, STAR, SLASH, OR } from "./TokenType";
+import { MINUS, PLUS, STAR, SLASH, OR, EQUAL, NOT_EQUAL } from "./TokenType";
 import Environment from "./Environment";
 import RuntimeException from "./exceptions/RuntimeException";
 import Callable from "./Callable";
@@ -34,6 +34,10 @@ class Interpreter {
                 this.checkNumberOperands(left, right);
 
                 return left / right;
+            case EQUAL:
+                return this.isEqual(left, right);
+            case NOT_EQUAL:
+                return !this.isEqual(left, right);
         }
     }
 
@@ -105,6 +109,14 @@ class Interpreter {
         if (typeof operand !== 'number') {
             throw Error('Operand must be a number');
         }
+    }
+
+    isEqual(left, right) {
+        if (typeof left !== typeof right) {
+            return false;
+        }
+
+        return left == right;
     }
 
     isTruthy(value) {
