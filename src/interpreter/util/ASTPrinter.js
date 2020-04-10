@@ -5,52 +5,52 @@ class ASTPrinter {
         this.expression = expression;
     }
 
-    evaluate(expression) {
-        return expression.accept(this);
+    async evaluate(expression) {
+        return await expression.accept(this);
     }
 
-    print() {
-        return asTree(this.expression.accept(this), true);
+    async print() {
+        return asTree(await this.expression.accept(this), true);
     }
 
-    visitBinaryExpression(binaryExpression) {
-        const left = this.evaluate(binaryExpression.left);
-        const right = this.evaluate(binaryExpression.right);
+    async visitBinaryExpression(binaryExpression) {
+        const left = await this.evaluate(binaryExpression.left);
+        const right = await this.evaluate(binaryExpression.right);
         const operator = binaryExpression.operator;
 
         return {[operator]: {left, right}};
     }
 
-    visitUnaryExpression(unaryExpression) {
-        const right = this.evaluate(unaryExpression.right);
+    async visitUnaryExpression(unaryExpression) {
+        const right = await this.evaluate(unaryExpression.right);
         const operator = unaryExpression.operator;
 
         return {[operator]: {right}};
     }
 
-    visitLiteralExpression(literalExpression) {
-        return literalExpression.value;
+    async visitLiteralExpression(literalExpression) {
+        return Promise.resolve(literalExpression.value);
     }
 
-    visitGroupingExpression(groupingExpression) {
-        return this.evaluate(groupingExpression.expression);
+    async visitGroupingExpression(groupingExpression) {
+        return await this.evaluate(groupingExpression.expression);
     }
 
-    visitLogicalExpression(logicalExpression) {
-        return this.visitBinaryExpression(logicalExpression);
+    async visitLogicalExpression(logicalExpression) {
+        return await this.visitBinaryExpression(logicalExpression);
     }
     
-    visitVariableExpression(variableExpression) {
-        return {
+    async visitVariableExpression(variableExpression) {
+        return Promise.resolve({
             variable: variableExpression.token.lexeme
-        }
+        });
     }
 
-    visitCallExpression(callExpression) {
+    async visitCallExpression(callExpression) {
         return {
             functionCall: {
-                name: this.evaluate(callExpression.callee),
-                args: callExpression.args.map(arg => this.evaluate(arg))
+                name: await this.evaluate(callExpression.callee),
+                args: callExpression.args.map(async arg => await this.evaluate(arg))
             }
         }
     }

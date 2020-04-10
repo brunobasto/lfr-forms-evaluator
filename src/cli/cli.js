@@ -25,7 +25,9 @@ const run = source => {
 
     const expression = parser.parse();
 
-    console.log('\nAST:\n', printAST(expression));
+    printAST(expression).then(result => {
+        console.log('\nAST:\n', result);
+    });
 
     // Define native functions
 
@@ -37,7 +39,9 @@ const run = source => {
 
     const interpreter = new Interpreter(expression, environment);
 
-    console.log('\nResult:\n', interpreter.interpret(), '\n');
+    interpreter.interpret().then(result => {
+        console.log('\nResult:\n', result, '\n');
+    });
 }
 
 const runFile = filePath => {

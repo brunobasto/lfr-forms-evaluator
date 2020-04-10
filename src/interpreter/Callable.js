@@ -3,8 +3,8 @@ class Callable {
         return 0;
     }
 
-    doCall() {
-
+    async doCall() {
+        return Promise.resolve(null);
     }
 }
 

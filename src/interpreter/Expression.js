@@ -13,8 +13,8 @@ class Binary extends Expression {
         this.right = right;
     }
 
-    accept(visitor) {
-        return visitor.visitBinaryExpression(this);
+    async accept(visitor) {
+        return await visitor.visitBinaryExpression(this);
     }
 }
 
@@ -28,8 +28,8 @@ class Unary extends Expression {
         this.right = right;
     }
 
-    accept(visitor) {
-        return visitor.visitUnaryExpression(this);
+    async accept(visitor) {
+        return await visitor.visitUnaryExpression(this);
     }
 }
 
@@ -42,8 +42,8 @@ class Literal extends Expression {
         this.value = value;
     }
 
-    accept(visitor) {
-        return visitor.visitLiteralExpression(this);
+    async accept(visitor) {
+        return await visitor.visitLiteralExpression(this);
     }
 }
 
@@ -56,8 +56,8 @@ class Variable extends Expression {
         this.token = token;
     }
 
-    accept(visitor) {
-        return visitor.visitVariableExpression(this);
+    async accept(visitor) {
+        return await visitor.visitVariableExpression(this);
     }
 }
 
@@ -70,8 +70,8 @@ class Grouping extends Expression {
         this.expression = expression;
     }
 
-    accept(visitor) {
-        return visitor.visitGroupingExpression(this);
+    async accept(visitor) {
+        return await visitor.visitGroupingExpression(this);
     }
 }
 
@@ -86,8 +86,8 @@ class Logical extends Expression {
         this.right = right;
     }
 
-    accept(visitor) {
-        return visitor.visitLogicalExpression(this);
+    async accept(visitor) {
+        return await visitor.visitLogicalExpression(this);
     }
 }
 
@@ -102,8 +102,8 @@ class Call extends Expression {
         this.args = args;
     }
 
-    accept(visitor) {
-        return visitor.visitCallExpression(this);
+    async accept(visitor) {
+        return await visitor.visitCallExpression(this);
     }
 }
 

@@ -9,17 +9,17 @@ class Interpreter {
         this.environment = environment;
     }
 
-    interpret() {
-        return this.evaluate(this.expression);
+    async interpret() {
+        return await this.evaluate(this.expression);
     }
 
-    evaluate(expression) {
-        return expression.accept(this);
+    async evaluate(expression) {
+        return await expression.accept(this);
     }
 
-    visitBinaryExpression(binaryExpression) {
-        const left = this.evaluate(binaryExpression.left);
-        const right = this.evaluate(binaryExpression.right);
+    async visitBinaryExpression(binaryExpression) {
+        const left = await this.evaluate(binaryExpression.left);
+        const right = await this.evaluate(binaryExpression.right);
 
         switch (binaryExpression.operator.type) {
             case MINUS:
@@ -41,8 +41,8 @@ class Interpreter {
         }
     }
 
-    visitUnaryExpression(unaryExpression) {
-        const value = this.evaluate(unaryExpression.right);
+    async visitUnaryExpression(unaryExpression) {
+        const value = await this.evaluate(unaryExpression.right);
 
         if (unaryExpression.operator.type === MINUS) {
             this.checkNumberOperand(value);
@@ -53,16 +53,16 @@ class Interpreter {
         return !this.isTruthy(value);
     }
 
-    visitLiteralExpression(literalExpression) {
-        return literalExpression.value;
+    async visitLiteralExpression(literalExpression) {
+        return Promise.resolve(literalExpression.value);
     }
 
-    visitGroupingExpression(groupingExpression) {
-        return this.evaluate(groupingExpression.expression);
+    async visitGroupingExpression(groupingExpression) {
+        return await this.evaluate(groupingExpression.expression);
     }
 
-    visitLogicalExpression(logicalExpression) {
-        const left = this.evaluate(logicalExpression.left);
+    async visitLogicalExpression(logicalExpression) {
+        const left = await this.evaluate(logicalExpression.left);
 
         if (logicalExpression.operator.type == OR) {
             if (this.isTruthy(left)) {
@@ -74,16 +74,16 @@ class Interpreter {
             }
         }
 
-        return this.evaluate(logicalExpression.right);
+        return await this.evaluate(logicalExpression.right);
     }
 
-    visitVariableExpression(variableExpression) {
-        return this.environment.get(variableExpression.token);
+    async visitVariableExpression(variableExpression) {
+        return Promise.resolve(this.environment.get(variableExpression.token));
     }
 
-    visitCallExpression(callExpression) {
-        const callee = this.evaluate(callExpression.callee);
-        const args = callExpression.args.map(arg => this.evaluate(arg));
+    async visitCallExpression(callExpression) {
+        const callee = await this.evaluate(callExpression.callee);
+        const args = await Promise.all(callExpression.args.map(arg => this.evaluate(arg)));
 
         if (!(callee instanceof Callable)) {
             throw new RuntimeException(
@@ -96,7 +96,7 @@ class Interpreter {
                 `Expected ${callee.arity()} but got ${args.length} arguments.`);
         }
 
-        return callee.doCall(this, args);
+        return await callee.doCall(this, args);
     }
 
     checkNumberOperands(...operands) {
